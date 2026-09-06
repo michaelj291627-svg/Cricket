@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>WPL-2026 | Admin Dashboard</title>
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<header class="site-header">
+  <div class="banner-wrap">
+    <img class="banner" src="opentext-image.webp" alt="OpenText" />
+  </div>
+  <div class="title-bar">
+    <h1>WPL-2026 &mdash; Admin Dashboard</h1>
+    <p>Manage registered teams &middot; Swysh Turf at Embassy Golf Links</p>
+  </div>
+  <nav class="main-nav">
+    <a href="admin.html" class="active">Admin Dashboard</a>
+    <a href="index.html">Open Registration Page</a>
+  </nav>
+</header>
+
+<main>
+  <section class="card">
+    <div id="adminMessage" class="banner-msg" role="status"></div>
+    <div class="toolbar">
+      <div>
+        <span class="stat" id="teamCount">0 teams</span>
+        <span class="stat" id="playerCount">0 players</span>
+      </div>
+      <div class="actions">
+        <input type="search" id="searchBox" placeholder="Search team, captain or player..." />
+        <button class="secondary small" id="exportBtn">Export JSON</button>
+        <button class="danger small" id="clearAllBtn">Delete All</button>
+      </div>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th style="width:40px">#</th>
+          <th>Team Name</th>
+          <th>Captain</th>
+          <th>Players (6)</th>
+          <th>Registered On</th>
+          <th style="width:150px">Actions</th>
+        </tr>
+      </thead>
+      <tbody id="teamsBody"></tbody>
+    </table>
+    <div class="empty" id="emptyState">No teams registered yet.</div>
+  </section>
+</main>
+
+<div class="modal-backdrop" id="editBackdrop">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="editTitle">
+    <h3 id="editTitle">Edit Team Registration</h3>
+    <div id="editMessage" class="banner-msg"></div>
+    <form id="editForm" novalidate>
+      <input type="hidden" id="editId" />
+      <div class="form-row">
+        <div class="field">
+          <label for="edit-teamName">Team Name <span class="req">*</span></label>
+          <input type="text" id="edit-teamName" maxlength="40" />
+          <div class="error" id="err-edit-teamName"></div>
+        </div>
+        <div class="field">
+          <label for="edit-captainName">Captain Name <span class="req">*</span></label>
+          <input type="text" id="edit-captainName" maxlength="40" />
+          <div class="error" id="err-edit-captainName"></div>
+        </div>
+      </div>
+      <div class="form-row" id="editPlayers"></div>
+      <div class="actions">
+        <button type="submit" class="primary">Save Changes</button>
+        <button type="button" class="secondary" id="cancelEdit">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<footer class="site-footer">WPL-2026 &middot; Registrations are saved on the tournament server.</footer>
+
+<script src="storage.js"></script>
+<script src="admin.js"></script>
+</body>
+</html>

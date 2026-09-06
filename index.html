@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>WPL-2026 | Team Registration</title>
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<header class="site-header">
+  <div class="banner-wrap">
+    <img class="banner" src="opentext-image.webp" alt="OpenText" />
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-inner">
+    <span class="hero-badge">Registrations Open</span>
+    <h1>WPL&nbsp;2026</h1>
+    <p class="hero-sub">Women's Premier League &middot; One Step Bowling</p>
+    <p class="hero-meta">Swysh Turf, Embassy Golf Links &nbsp;|&nbsp; Organized by Michael Varghees J &amp; Albert James</p>
+    <a class="hero-cta" href="#register">Register Your Team</a>
+  </div>
+</section>
+
+<main>
+  <section class="tiles">
+    <div class="tile">
+      <span class="tile-icon">&#127942;</span>
+      <span class="tile-label">Tournament</span>
+      <strong>WPL-2026</strong>
+    </div>
+    <div class="tile">
+      <span class="tile-icon">&#128205;</span>
+      <span class="tile-label">Venue</span>
+      <strong>Swysh Turf, Embassy Golf Links</strong>
+    </div>
+    <div class="tile">
+      <span class="tile-icon">&#128197;</span>
+      <span class="tile-label">Dates</span>
+      <strong>To be announced</strong>
+    </div>
+    <div class="tile">
+      <span class="tile-icon">&#127951;</span>
+      <span class="tile-label">Format</span>
+      <strong>One step bowling</strong>
+    </div>
+    <div class="tile">
+      <span class="tile-icon">&#128101;</span>
+      <span class="tile-label">Team Size</span>
+      <strong>6 players</strong>
+    </div>
+    <div class="tile">
+      <span class="tile-icon">&#127908;</span>
+      <span class="tile-label">Organizers</span>
+      <strong>Michael Varghees J &amp; Albert James</strong>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>General Rules</h2>
+    <ul class="rules">
+      <li>Each team must have a minimum of 6 registered players.</li>
+      <li>All players must be women.</li>
+      <li>No player can represent more than one team during the tournament.</li>
+      <li>Teams should report to the venue at least 15 minutes before their scheduled match.</li>
+      <li>Umpire decisions will be considered final and binding.</li>
+      <li>Fair play and sportsmanship are expected from all participants.</li>
+      <li>Players participate at their own risk. The organizers will not be responsible for injuries or loss of personal belongings.</li>
+    </ul>
+  </section>
+
+  <section class="card form-card" id="register">
+    <h2>Team Registration</h2>
+    <div id="formMessage" class="banner-msg" role="status"></div>
+    <p class="hint">All fields marked <span class="req">*</span> are required. Player names must be unique within the team and across the tournament.</p>
+
+    <form id="registrationForm" novalidate>
+      <div class="section-heading"><span class="step-dot">1</span> Team Details</div>
+      <div class="form-row">
+        <div class="field">
+          <label for="teamName">Team Name <span class="req">*</span></label>
+          <input type="text" id="teamName" name="teamName" maxlength="40" autocomplete="off" placeholder="e.g. Turf Titans" />
+          <div class="error" id="err-teamName"></div>
+        </div>
+        <div class="field">
+          <label for="captainName">Captain Name <span class="req">*</span></label>
+          <input type="text" id="captainName" name="captainName" maxlength="40" autocomplete="off" placeholder="Full name" />
+          <div class="error" id="err-captainName"></div>
+        </div>
+      </div>
+
+      <div class="section-heading"><span class="step-dot">2</span> Players <small>(6 required)</small></div>
+      <div class="form-row" id="playersContainer"></div>
+
+      <div class="actions">
+        <button type="submit" class="primary">Submit Registration</button>
+        <button type="reset" class="secondary" id="resetBtn">Clear Form</button>
+      </div>
+    </form>
+  </section>
+</main>
+
+<footer class="site-footer">WPL-2026 &middot; Registrations are saved on the tournament server.</footer>
+
+<script src="storage.js"></script>
+<script src="register.js"></script>
+</body>
+</html>
