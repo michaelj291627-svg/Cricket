@@ -1,46 +1,100 @@
-/* Shared data layer for WPL-2026 registrations, backed by the server API. */
 const WPL = (() => {
-  const API = '/api/teams';
   const MAX_PLAYERS = 6;
 
-  async function request(url, options) {
-    const res = await fetch(url, {
-      headers: { 'Content-Type': 'application/json' },
-      ...options
-    });
-    const data = await res.json().catch(() => ({}));
-    if (!res.ok) throw new Error(data.error || 'Request failed (' + res.status + ').');
-    return data;
-  }
-
   function normalize(value) {
-    return String(value == null ? '' : value).trim().replace(/\s+/g, ' ');
+    return String(value || '').trim().replace(/\s+/g, ' ');
   }
 
   function key(value) {
     return normalize(value).toLowerCase();
   }
 
-  const list = () => request(API);
-  const add = team => request(API, { method: 'POST', body: JSON.stringify(team) });
-  const update = (id, changes) => request(API + '/' + id, { method: 'PUT', body: JSON.stringify(changes) });
-  const remove = id => request(API + '/' + id, { method: 'DELETE' });
-  const removeAll = () => request(API, { method: 'DELETE' });
+  async function list() {
+    const snapshot = await fb.getDocs(
+      fb.collection(db, "teams")
+    );
 
-  function isTeamNameTaken(teams, name, exceptId) {
-    return teams.some(t => t.id !== exceptId && key(t.teamName) === key(name));
+    const teams = [];
+
+    snapshot.forEach(docSnap => {
+      teams.push({
+        id: docSnap.id,
+        ...docSnap.data()
+      });
+    });
+
+    return teams;
   }
 
-  /* Players already registered with another team, per tournament rule 3. */
+  async function add(team) {
+    await fb.addDoc(
+      fb.collection(db, "teams"),
+      {
+        ...team,
+        registeredOn: new Date().toISOString()
+      }
+    );
+  }
+
+  async function update(id, changes) {
+    await fb.updateDoc(
+      fb.doc(db, "teams", id),
+      changes
+    );
+  }
+
+  async function remove(id) {
+    await fb.deleteDoc(
+      fb.doc(db, "teams", id)
+    );
+  }
+
+  async function removeAll() {
+    const teams = await list();
+
+    for (const t of teams) {
+      await remove(t.id);
+    }
+  }
+
+  function isTeamNameTaken(teams, name, exceptId) {
+    return teams.some(
+      t =>
+        t.id !== exceptId &&
+        key(t.teamName) === key(name)
+    );
+  }
+
   function playersUsedElsewhere(teams, players, exceptId) {
     const used = new Map();
+
     teams
       .filter(t => t.id !== exceptId)
-      .forEach(t => (t.players || []).forEach(p => used.set(key(p), t.teamName)));
+      .forEach(t =>
+        (t.players || []).forEach(
+          p => used.set(key(p), t.teamName)
+        )
+      );
+
     return players
-      .map(name => ({ name, otherTeam: used.get(key(name)) }))
+      .map(name => ({
+        name,
+        otherTeam: used.get(key(name))
+      }))
       .filter(x => x.otherTeam);
   }
 
-  return { MAX_PLAYERS, list, add, update, remove, removeAll, normalize, key, isTeamNameTaken, playersUsedElsewhere };
+  return {
+    MAX_PLAYERS,
+    list,
+    add,
+    update,
+    remove,
+    removeAll,
+    normalize,
+    key,
+    isTeamNameTaken,
+    playersUsedElsewhere
+  };
 })();
+``
