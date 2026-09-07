@@ -266,6 +266,7 @@
     URL.revokeObjectURL(url);
   });
 
-  refresh();
+showMessage('Loading registrations...', 'success');
+refresh();
   setInterval(refresh, 15000);
 })();
