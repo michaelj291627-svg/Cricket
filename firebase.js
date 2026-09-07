@@ -31,3 +31,15 @@ window.fb = {
   deleteDoc,
   doc
 };
+window.db = db;
+
+window.fb = {
+  collection,
+  getDocs,
+  addDoc,
+  updateDoc,
+  deleteDoc,
+  doc
+};
+
+console.log("Firebase loaded");
